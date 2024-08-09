@@ -17,14 +17,14 @@ cv.createTrackbar('H2',Winname,0,255,nothing)
 cv.createTrackbar('S2',Winname,0,255,nothing)
 cv.createTrackbar('V2',Winname,0,255,nothing)
 
-
-bounding_box = {'top': 452, 'left': 837, 'width': 248, 'height': 197}
-
 sct = mss()
+lower1 = np.array([30, 0, 0])
+upper1 = np.array([255, 255, 255]) 
+checker_box = {'top': 800, 'left': 1750, 'width': 100, 'height': 100}
 
 while True:
-    img = cv.imread("test3.png")
-    img = cv.cvtColor(np.array(img), cv.COLOR_BGR2RGB) 
+    img = sct.grab(checker_box)
+    img = cv.cvtColor(np.array(img), cv.COLOR_BGR2RGB)
     H = cv.getTrackbarPos('H', 'Frame:')
     S = cv.getTrackbarPos('S', 'Frame:')
     V = cv.getTrackbarPos('V', 'Frame:')
@@ -37,5 +37,4 @@ while True:
     mask = cv.inRange(hsv, lower_boundary, upper_boundary)
     final = cv.bitwise_and(img, img, mask=mask)
     cv.imshow("Frame:", final)
-
     if cv.waitKey(1) == ord('q'): break
